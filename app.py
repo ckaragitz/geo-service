@@ -29,12 +29,12 @@ class Geolocation:
     
     def geocode(self, lat, long, address):
 
-        geocode_result = gmaps.geocode(str(address))
+        geocode_result = self.gmaps.geocode(str(address))
         return geocode_result
 
     def rev_geocode(self, lat, long):
 
-        rev_geocode_result = gmaps.reverse_geocode((lat, long))
+        rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
         return rev_geocode_result
 
 
