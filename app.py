@@ -41,10 +41,11 @@ class Geolocation:
 @app.route('/api/geo/geohash', methods=['POST'])
 def geohash(): 
 
-    # Receive GET body and parse for values
-    lat = request.args.get('lat')
-    long = request.args.get('long')
-    timezone = request.args.get('timezone')
+    # Receive POST body and parse for values
+    data = request.json
+    lat = data.get('lat')
+    long = data.get('long')
+    timezone = data.get('timezone')
 
     geo = Geolocation(lat, long)
 
@@ -54,10 +55,11 @@ def geohash():
 @app.route('/api/geo/geocode', methods=['POST'])
 def geocode(): 
 
-    # Receive GET body and parse for values
-    lat = request.args.get('lat')
-    long = request.args.get('long')
-    timezone = request.args.get('timezone')
+    # Receive POST body and parse for values
+    data = request.json
+    lat = data.get('lat')
+    long = data.get('long')
+    timezone = data.get('timezone')
 
     geo = Geolocation(lat, long)
 
@@ -67,10 +69,11 @@ def geocode():
 @app.route('/api/geo/revcode', methods=['POST'])
 def revcode(): 
 
-    # Receive GET body and parse for values
-    lat = request.args.get('lat')
-    long = request.args.get('long')
-    timezone = request.args.get('timezone')
+    # Receive POST body and parse for values
+    data = request.json
+    lat = data.get('lat')
+    long = data.get('long')
+    timezone = data.get('timezone')
 
     geo = Geolocation(lat, long)
 
