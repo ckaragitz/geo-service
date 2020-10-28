@@ -18,6 +18,8 @@ class Geolocation:
     API_KEY = 'AIzaSyDEm_6KW_GQsex5wx9JiUADGajOFjYBAok'
     gmaps = googlemaps.Client(key=API_KEY)
 
+    DATABASE_URL = os.environ['DATABASE_URL']
+
     def __init__(self, lat, long):
 
         self.lat = lat
@@ -27,7 +29,7 @@ class Geolocation:
 
         pass
     
-    def geocode(self, lat, long, address):
+    def geocode(self, address):
 
         geocode_result = self.gmaps.geocode(str(address))
         return geocode_result
@@ -36,6 +38,18 @@ class Geolocation:
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
         return rev_geocode_result
+
+    def persist(self, lat, long, geohash = None, country = None, administrative_area = None, sub_administrative_area = None, locality = None, thoroughfare = None, postal_code = None):
+
+        conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        cur = conn.cursor()
+
+        if reverse_geocode:
+            # Insertion operations
+            cur.execute('INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
+            thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, thoroughfare, postal_code))
+            conn.commit()
+            cur.close()
 
 
 @app.route('/api/geo/geohash', methods=['POST'])
