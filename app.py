@@ -18,16 +18,18 @@ class Geo:
     API_KEY = 'AIzaSyDEm_6KW_GQsex5wx9JiUADGajOFjYBAok'
     gmaps = googlemaps.Client(key=API_KEY)
 
-    def __init__(self, lat, long):
+    def __init__(self, lat, long, timezone, address):
 
         self.lat = lat
         self.long = long
+        self.timezone = ''
+        self.address = ''
 
     def geohash(self, lat, long):
 
         pass
     
-    def geocode(self, lat=lat, long=long, address=address):
+    def geocode(self, lat, long, address):
 
         geocode_result = gmaps.geocode(str(address))
         return geocode_result
