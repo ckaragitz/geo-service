@@ -13,7 +13,7 @@ import psycopg2
 
 app = Flask(__name__)
 
-class Geo:
+class Geolocation:
 
     API_KEY = 'AIzaSyDEm_6KW_GQsex5wx9JiUADGajOFjYBAok'
     gmaps = googlemaps.Client(key=API_KEY)
@@ -46,9 +46,9 @@ def geohash():
     long = request.args.get('long')
     timezone = request.args.get('timezone')
 
-    geolocation = Geo(lat, long)
+    geo = Geolocation(lat, long)
 
-    results = geolocation.geohash(lat, long)
+    results = geo.geohash(lat, long)
     return jsonify(results)
 
 @app.route('/api/geo/geocode', methods=['POST'])
@@ -59,9 +59,9 @@ def geocode():
     long = request.args.get('long')
     timezone = request.args.get('timezone')
 
-    geolocation = Geo(lat, long)
+    geo = Geolocation(lat, long)
 
-    results = geolocation.geocode(lat, long)
+    results = geo.geocode(lat, long)
     return jsonify(results)
 
 @app.route('/api/geo/revcode', methods=['POST'])
@@ -72,7 +72,7 @@ def revcode():
     long = request.args.get('long')
     timezone = request.args.get('timezone')
 
-    geolocation = Geo(lat, long)
+    geo = Geolocation(lat, long)
 
-    results = geolocation.rev_geocode(lat, long)
+    results = geo.rev_geocode(lat, long)
     return jsonify(results)
