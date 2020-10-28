@@ -36,18 +36,16 @@ class Geolocation:
 
     def rev_geocode(self, lat, long):
 
-        self.reverse = True
-
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
 
-        street_number = rev_geocode_result[0]['address components'][0]['long_name']
-        route = rev_geocode_result[0]['address components'][1]['long_name']
+        street_number = rev_geocode_result[0]['address_components'][0]['long_name']
+        route = rev_geocode_result[0]['address_components'][1]['long_name']
         thoroughfare = street_number + route
-        locality = rev_geocode_result[0]['address components'][3]['long_name']
-        administrative_area = rev_geocode_result[0]['address components'][6]['short_name']
-        sub_administrative_area = rev_geocode_result[0]['address components'][5]['long_name']
-        country = rev_geocode_result[0]['address components'][7]['short_name']
-        postal_code = rev_geocode_result[0]['address components'][8]['long_name']
+        locality = rev_geocode_result[0]['address_components'][3]['long_name']
+        administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
+        sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
+        country = rev_geocode_result[0]['address_components'][7]['short_name']
+        postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
 
         self.persist(lat, long, thoroughfare=thoroughfare, locality=locality, administrative_area=administrative_area, sub_administrative_area=sub_administrative_area, country=country, postal_code=postal_code)
 
@@ -58,12 +56,10 @@ class Geolocation:
         conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cur = conn.cursor()
 
-        if self.reverse:
-            # Insertion operations
-            cur.execute('INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
-            thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, thoroughfare, postal_code))
-            conn.commit()
-            cur.close()
+        cur.execute('INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
+        thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, thoroughfare, postal_code))
+        conn.commit()
+        cur.close()
 
 
 @app.route('/api/geo/geohash', methods=['POST'])
