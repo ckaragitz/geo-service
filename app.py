@@ -40,16 +40,17 @@ class Geolocation:
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
 
-        print(rev_geocode_result)
-        print('\n')
+        street_number = rev_geocode_result[0]['address components'][0]['long_name']
+        route = rev_geocode_result[0]['address components'][1]['long_name']
+        thoroughfare = street_number + route
+        locality = rev_geocode_result[0]['address components'][3]['long_name']
+        administrative_area = rev_geocode_result[0]['address components'][6]['short_name']
+        sub_administrative_area = rev_geocode_result[0]['address components'][5]['long_name']
+        country = rev_geocode_result[0]['address components'][7]['short_name']
+        postal_code = rev_geocode_result[0]['address components'][8]['long_name']
 
-        #street_number = rev_geocode_result.get('street_number')
-        #route = rev_geocode_result.get('route')
-        #thoroughfare = street_number + route
-        #locality = rev_geocode_result.get('locality')
-        #administrative_area = rev_geocode_result.get('administrative_area_level_1')
-        #sub_administrative_area = rev_geocode_result.get('administrative_area_level_2')
-        #country = rev_geocode_result.get('country')
+        self.persist(lat, long, thoroughfare=thoroughfare, locality=locality, administrative_area=administrative_area, sub_administrative_area=sub_administrative_area, country=country, postal_code=postal_code)
+
         return rev_geocode_result
 
     def persist(self, lat, long, geohash = None, country = None, administrative_area = None, sub_administrative_area = None, locality = None, thoroughfare = None, postal_code = None):
