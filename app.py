@@ -36,7 +36,19 @@ class Geolocation:
 
     def rev_geocode(self, lat, long):
 
+        self.reverse = True
+
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
+
+        street_number = rev_geocode_result.get('street_number')
+        route = rev_geocode_result.get('route')
+        thoroughfare = street_number + route
+        locality = rev_geocode_result.get('locality')
+        administrative_area = rev_geocode_result.get('administrative_area_level_1')
+        sub_administrative_area = rev_geocode_result.get('administrative_area_level_2')
+        country = rev_geocode_result.get('country')
+
+
         return rev_geocode_result
 
     def persist(self, lat, long, geohash = None, country = None, administrative_area = None, sub_administrative_area = None, locality = None, thoroughfare = None, postal_code = None):
@@ -44,7 +56,7 @@ class Geolocation:
         conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cur = conn.cursor()
 
-        if reverse_geocode:
+        if self.reverse:
             # Insertion operations
             cur.execute('INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
             thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, thoroughfare, postal_code))
