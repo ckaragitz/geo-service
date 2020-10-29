@@ -22,21 +22,27 @@ class Geolocation:
     DATABASE_URL = os.environ['DATABASE_URL']
     formatted_address = None
 
-    def __init__(self, lat, long):
+    def __init__(self, lat=None, long=None, address=None):
 
         self.lat = lat
         self.long = long
+        self.address = address
 
     def geohash(self, lat, long):
 
         geohash = Geohash.encode(lat, long)
-
         return geohash
     
     def geocode(self, address):
 
         geocode_result = self.gmaps.geocode(str(address))
-        return geocode_result
+
+        self.lat = geocode_result[0]['geometry']['location']['lat']
+        self.long = geocode_result[0]['geometry']['location']['lng']
+
+        latlng = (self.lat, self.long)
+
+        return latlng
 
     def rev_geocode(self, lat, long):
 
@@ -84,13 +90,18 @@ def geocode():
 
     # Receive POST body and parse for values
     data = request.json
-    lat = data.get('lat')
-    long = data.get('long')
+    address = data.get('address')
     timezone = data.get('timezone')
 
-    geo = Geolocation(lat, long)
+    geo = Geolocation(address)
+    results = geo.geocode(address)
+    lat = results[0]
+    long = results[1]
 
-    results = geo.geocode(lat, long)
+    sql_statement = 'INSERT INTO "geolocation" (lat, long, address) VALUES (%s, %s, %s)'
+    values = (lat, long, results)
+    geo.persist(sql_statement, values)
+
     return jsonify(results)
 
 @app.route('/api/geo/revcode', methods=['POST'])
