@@ -31,7 +31,6 @@ class Geolocation:
     def geohash(self, lat, long):
 
         geohash = pgh.encode(lat, long)
-
         return geohash
     
     def geocode(self, address):
@@ -48,7 +47,6 @@ class Geolocation:
     def rev_geocode(self, lat, long):
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
-
         self.formatted_address = rev_geocode_result[0]['formatted_address']
 
         return self.formatted_address
