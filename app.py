@@ -44,14 +44,14 @@ class Geolocation:
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
 
-        self.street_number = rev_geocode_result[0]['address_components'][0]['long_name']
-        self.route = rev_geocode_result[0]['address_components'][1]['long_name']
-        self.thoroughfare = self.street_number + self.route
-        self.locality = rev_geocode_result[0]['address_components'][3]['long_name']
-        self.administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
-        self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
-        self.country = rev_geocode_result[0]['address_components'][7]['short_name']
-        self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
+        #self.street_number = rev_geocode_result[0]['address_components'][0]['long_name']
+        #self.route = rev_geocode_result[0]['address_components'][1]['long_name']
+        #self.thoroughfare = self.street_number + self.route
+        #self.locality = rev_geocode_result[0]['address_components'][3]['long_name']
+        #self.administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
+        #self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
+        #self.country = rev_geocode_result[0]['address_components'][7]['short_name']
+        #self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
 
         return rev_geocode_result
 
@@ -108,6 +108,6 @@ def revcode():
     sql_statement = 'INSERT INTO "geolocation" (lat, long, country, administrative_area, sub_administrative_area, locality, \
         thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
     values = (lat, long, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
-    geo.persist(sql_statement, values)
+    #geo.persist(sql_statement, values)
 
     return jsonify(results)
