@@ -44,14 +44,14 @@ class Geolocation:
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
 
-        street_number = rev_geocode_result[0]['address_components'][0]['long_name']
-        route = rev_geocode_result[0]['address_components'][1]['long_name']
-        thoroughfare = street_number + route
-        locality = rev_geocode_result[0]['address_components'][3]['long_name']
-        administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
-        sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
-        country = rev_geocode_result[0]['address_components'][7]['short_name']
-        postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
+        self.street_number = rev_geocode_result[0]['address_components'][0]['long_name']
+        self.route = rev_geocode_result[0]['address_components'][1]['long_name']
+        self.thoroughfare = street_number + route
+        self.locality = rev_geocode_result[0]['address_components'][3]['long_name']
+        self.administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
+        self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
+        self.country = rev_geocode_result[0]['address_components'][7]['short_name']
+        self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
 
         return rev_geocode_result
 
