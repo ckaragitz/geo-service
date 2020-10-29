@@ -31,7 +31,7 @@ class Geolocation:
     def geohash(self, lat, long):
 
         geohash = pgh.encode(lat, long)
-        
+
         return geohash
     
     def geocode(self, address):
@@ -80,8 +80,12 @@ def geohash():
         return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
     geo = Geolocation(lat=lat, long=long)
-
     results = geo.geohash(lat, long)
+
+    sql_statement = 'INSERT INTO "geolocation" (lat, long, geohash) VALUES (%s, %s, %s)'
+    values = (lat, long, results)
+    geo.persist(sql_statement, values)
+        
     return jsonify(results)
 
 @app.route('/api/geo/geocode', methods=['POST'])
