@@ -93,8 +93,8 @@ def geocode():
     address = data.get('address')
     timezone = data.get('timezone')
 
-    geo = Geolocation(address)
-    results = geo.geocode(address=address)
+    geo = Geolocation(address=address)
+    results = geo.geocode(address)
     lat = results[0]
     long = results[1]
 
@@ -107,14 +107,14 @@ def geocode():
 @app.route('/api/geo/revcode', methods=['POST'])
 def revcode(): 
 
-        # Receive POST body and parse for values
-        data = request.json
-        lat = data.get('lat')
-        long = data.get('long')
-        timezone = data.get('timezone')
+    # Receive POST body and parse for values
+    data = request.json
+    lat = data.get('lat')
+    long = data.get('long')
+    timezone = data.get('timezone')
 
-    geo = Geolocation(lat, long)
-    results = geo.rev_geocode(lat=lat, long=long)
+    geo = Geolocation(lat=lat, long=long)
+    results = geo.rev_geocode(lat, long)
 
     #sql_statement = 'INSERT INTO "geolocation" (lat, long, country, administrative_area, sub_administrative_area, locality, \
         #thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
