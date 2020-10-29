@@ -77,9 +77,13 @@ def geohash():
     try:
         # Receive POST body and parse for values
         data = request.json
-        lat = data.get('lat')
-        long = data.get('long')
-        timezone = data.get('timezone')
+
+        if data.get('address'):
+            raise Exception("Wrong payload value")
+        else:
+            lat = data.get('lat')
+            long = data.get('long')
+            timezone = data.get('timezone')
     except Exception as e:
         return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
@@ -94,8 +98,12 @@ def geocode():
     try:
         # Receive POST body and parse for values
         data = request.json
-        address = data.get('address')
-        timezone = data.get('timezone')
+
+        if data.get('lat') or data.get('lat'):
+            raise Exception("Wrong payload value")
+        else:
+            address = data.get('address')
+            timezone = data.get('timezone')
     except Exception as e:
         return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
