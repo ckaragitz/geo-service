@@ -74,11 +74,14 @@ class Geolocation:
 @app.route('/api/geo/geohash', methods=['POST'])
 def geohash(): 
 
-    # Receive POST body and parse for values
-    data = request.json
-    lat = data.get('lat')
-    long = data.get('long')
-    timezone = data.get('timezone')
+    try:
+        # Receive POST body and parse for values
+        data = request.json
+        lat = data.get('lat')
+        long = data.get('long')
+        timezone = data.get('timezone')
+    except Exception as e:
+        return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
     geo = Geolocation(lat=lat, long=long)
 
@@ -87,11 +90,14 @@ def geohash():
 
 @app.route('/api/geo/geocode', methods=['POST'])
 def geocode(): 
-
-    # Receive POST body and parse for values
-    data = request.json
-    address = data.get('address')
-    timezone = data.get('timezone')
+    
+    try:
+        # Receive POST body and parse for values
+        data = request.json
+        address = data.get('address')
+        timezone = data.get('timezone')
+    except Exception as e:
+        return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
     geo = Geolocation(address=address)
     results = geo.geocode(address)
@@ -107,11 +113,18 @@ def geocode():
 @app.route('/api/geo/revcode', methods=['POST'])
 def revcode(): 
 
-    # Receive POST body and parse for values
-    data = request.json
-    lat = data.get('lat')
-    long = data.get('long')
-    timezone = data.get('timezone')
+    try:
+        # Receive POST body and parse for values
+        data = request.json
+
+        if data.get('address'):
+            raise Exception("Wrong payload value")
+        else:
+            lat = data.get('lat')
+            long = data.get('long')
+            timezone = data.get('timezone')
+    except Exception as e:
+        return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
     geo = Geolocation(lat=lat, long=long)
     results = geo.rev_geocode(lat, long)
