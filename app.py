@@ -19,12 +19,7 @@ class Geolocation:
     gmaps = googlemaps.Client(key=API_KEY)
 
     DATABASE_URL = os.environ['DATABASE_URL']
-    thoroughfare = None
-    locality = None
-    administrative_area = None
-    sub_administrative_area = None
-    country = None
-    postal_code = None
+    formatted_address = None
 
     def __init__(self, lat, long):
 
@@ -52,6 +47,8 @@ class Geolocation:
         #self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
         #self.country = rev_geocode_result[0]['address_components'][7]['short_name']
         #self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
+
+
 
         return rev_geocode_result
 
