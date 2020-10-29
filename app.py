@@ -55,12 +55,12 @@ class Geolocation:
 
         return rev_geocode_result
 
-    def persist(self, sql_statement):
+    def persist(self, sql_statement, values):
 
         conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cur = conn.cursor()
 
-        cur.execute(sql_statement)
+        cur.execute(sql_statement, values)
         conn.commit()
         cur.close()
 
@@ -106,7 +106,8 @@ def revcode():
     results = geo.rev_geocode(lat, long)
 
     sql_statement = 'INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
-        thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
-    geo.persist(sql_statement)
+        thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    values = (lat, long, geohash, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
+    geo.persist(sql_statement, values)
 
     return jsonify(results)
