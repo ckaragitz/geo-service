@@ -10,7 +10,7 @@ import urllib
 import os
 import json
 import psycopg2
-import Geohash
+import pygeohash as pgh
 
 app = Flask(__name__)
 
@@ -28,9 +28,11 @@ class Geolocation:
         self.long = long
         self.address = address
 
+
+
     def geohash(self, lat, long):
 
-        geohash = Geohash.encode(lat, long)
+        geohash = pgh.encode(lat, long)
         return geohash
     
     def geocode(self, address):
@@ -70,7 +72,7 @@ class Geolocation:
         conn.commit()
         cur.close()
 
-
+################## API RESOURCES #####################
 @app.route('/api/geo/geohash', methods=['POST'])
 def geohash(): 
 
