@@ -46,7 +46,7 @@ class Geolocation:
 
         self.street_number = rev_geocode_result[0]['address_components'][0]['long_name']
         self.route = rev_geocode_result[0]['address_components'][1]['long_name']
-        self.thoroughfare = street_number + route
+        self.thoroughfare = self.street_number + self.route
         self.locality = rev_geocode_result[0]['address_components'][3]['long_name']
         self.administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
         self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
@@ -110,6 +110,6 @@ def revcode():
     values = (lat, long, geohash, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
     print(geo.country)
     print(geo.locality)
-    #geo.persist(sql_statement, values)
+    geo.persist(sql_statement, values)
 
     return jsonify(results)
