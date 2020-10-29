@@ -48,9 +48,9 @@ class Geolocation:
         #self.country = rev_geocode_result[0]['address_components'][7]['short_name']
         #self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
 
+        self.formatted_address = rev_geocode_result[0]['formatted_address']
 
-
-        return rev_geocode_result
+        return self.formatted_address
 
     def persist(self, sql_statement, values):
 
@@ -102,9 +102,12 @@ def revcode():
     geo = Geolocation(lat, long)
     results = geo.rev_geocode(lat, long)
 
-    sql_statement = 'INSERT INTO "geolocation" (lat, long, country, administrative_area, sub_administrative_area, locality, \
-        thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-    values = (lat, long, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
-    #geo.persist(sql_statement, values)
+    #sql_statement = 'INSERT INTO "geolocation" (lat, long, country, administrative_area, sub_administrative_area, locality, \
+        #thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+    #values = (lat, long, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
+    
+    sql_statement = 'INSERT INTO "geolocation" (lat, long, address) VALUES (%s, %s, %s)'
+    values = (lat, long, results)
+    geo.persist(sql_statement, values)
 
     return jsonify(results)
