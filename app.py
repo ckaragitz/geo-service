@@ -101,5 +101,6 @@ def revcode():
 
     sql_statement = 'INSERT INTO "geolocation" (lat, long, geohash, country, administrative_area, sub_administrative_area, locality, \
         thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', (lat, long, geohash, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
-        
+    geo.persist(sql_statement)
+
     return jsonify(results)
