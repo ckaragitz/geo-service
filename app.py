@@ -10,6 +10,7 @@ import urllib
 import os
 import json
 import psycopg2
+import Geohash
 
 app = Flask(__name__)
 
@@ -28,7 +29,9 @@ class Geolocation:
 
     def geohash(self, lat, long):
 
-        pass
+        geohash = Geohash.encode(lat, long)
+
+        return geohash
     
     def geocode(self, address):
 
