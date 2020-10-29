@@ -19,6 +19,12 @@ class Geolocation:
     gmaps = googlemaps.Client(key=API_KEY)
 
     DATABASE_URL = os.environ['DATABASE_URL']
+    thoroughfare = None
+    locality = None
+    administrative_area = None
+    sub_administrative_area = None
+    country = None
+    postal_code = None
 
     def __init__(self, lat, long):
 
