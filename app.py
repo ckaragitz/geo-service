@@ -31,6 +31,7 @@ class Geolocation:
     def geohash(self, lat, long):
 
         geohash = pgh.encode(lat, long)
+        
         return geohash
     
     def geocode(self, address):
@@ -47,15 +48,6 @@ class Geolocation:
     def rev_geocode(self, lat, long):
 
         rev_geocode_result = self.gmaps.reverse_geocode((lat, long))
-
-        #self.street_number = rev_geocode_result[0]['address_components'][0]['long_name']
-        #self.route = rev_geocode_result[0]['address_components'][1]['long_name']
-        #self.thoroughfare = self.street_number + self.route
-        #self.locality = rev_geocode_result[0]['address_components'][3]['long_name']
-        #self.administrative_area = rev_geocode_result[0]['address_components'][6]['short_name']
-        #self.sub_administrative_area = rev_geocode_result[0]['address_components'][5]['long_name']
-        #self.country = rev_geocode_result[0]['address_components'][7]['short_name']
-        #self.postal_code = rev_geocode_result[0]['address_components'][8]['long_name']
 
         self.formatted_address = rev_geocode_result[0]['formatted_address']
 
@@ -136,10 +128,6 @@ def revcode():
 
     geo = Geolocation(lat=lat, long=long)
     results = geo.rev_geocode(lat, long)
-
-    #sql_statement = 'INSERT INTO "geolocation" (lat, long, country, administrative_area, sub_administrative_area, locality, \
-        #thoroughfare, postal_code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-    #values = (lat, long, geo.country, geo.administrative_area, geo.sub_administrative_area, geo.locality, geo.thoroughfare, geo.postal_code)
     
     sql_statement = 'INSERT INTO "geolocation" (lat, long, address) VALUES (%s, %s, %s)'
     values = (lat, long, results)
