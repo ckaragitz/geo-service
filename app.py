@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 class Geolocation:
 
-    API_KEY = 'AIzaSyDEm_6KW_GQsex5wx9JiUADGajOFjYBAok'
+    API_KEY = os.environ['MAPPING_KEY']
     gmaps = googlemaps.Client(key=API_KEY)
 
     DATABASE_URL = os.environ['DATABASE_URL']
